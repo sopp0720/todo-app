@@ -5,7 +5,7 @@
         <!-- local storage에 저장한다. -->
         <!-- <button v-on:click="addTodo">add</button> -->
         <span class="addContainer" v-on:click="addTodo">
-            <i class="fas fa-plus addBtn"></i>
+            <i class="fas fa-plus addBtn" aria-hidden="true"></i>
         </span>
     </div>
 </template>
@@ -20,11 +20,11 @@ export default {
     methods: {
         addTodo: function() {
             if(this.newTodoItem !== '') {
-                var obj = {completed: false, item: this.newTodoItem};
-                console.log(this.newTodoItem);
-                // 저장하는 로직
-                // key value를 저장한다.
-                localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
+                //var obj = {completed: false, item: this.newTodoItem};                
+                //localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
+                //this.$emit(메서드, 인자)
+                this.$emit('addItem', this.newTodoItem);
+                this.clearInput();
             }
             //localStorage.setItem(this.newTodoItem, obj);
             // data 영역도 접근가능함.

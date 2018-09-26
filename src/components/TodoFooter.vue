@@ -9,7 +9,10 @@ export default {
 //scoped = 해당 컴포넌트에만 적용됨
   methods: {
     clearTodo: function() {
-        localStorage.clear();
+        // event만 발생시키고,
+        // 실제 처리는 app.vue에서 함.
+        this.$emit('clearAll')
+        //localStorage.clear();
     }
   }
 }
