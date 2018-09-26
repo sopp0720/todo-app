@@ -1,5 +1,7 @@
 <template>
+    
     <div>
+        <transition-group name="list" tag="ui">
         <!-- ul>li*3 단축키 -->        
         <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem" class="shadow">
             <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete(todoItem, index)"></i>
@@ -8,6 +10,7 @@
         <i class="removeBtn fas fa-trash-alt"></i>
         </span>
         </li>
+        </transition-group>
 
     </div>
 </template>

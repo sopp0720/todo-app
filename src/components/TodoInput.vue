@@ -7,14 +7,36 @@
         <span class="addContainer" v-on:click="addTodo">
             <i class="fas fa-plus addBtn" aria-hidden="true"></i>
         </span>
+
+        <Modal v-if="showModal" @close="showModal = false">
+            <!--
+            you can use custom content here to overwrite
+            default content
+            너가 원하는거 여기에 재정의 가능함.
+            -->            
+            <h3 slot="header">
+                <!-- 모달을 재정의함. 이게 slot의 기능 -->
+                경고!
+                <i class="closeModalBtn fas fa-times" v-on:click="showModal = false"></i>
+            </h3>   
+
+            <h2 slot="body">
+                todo를 입력해주세요!
+            </h2>            
+
+        </Modal>
+
     </div>
 </template>
 
 <script>
+import Modal from './common/Modal.vue'
+
 export default {
     data: function() {
         return {
-            newTodoItem: ""
+            newTodoItem: "",
+            showModal: false
         }
     },
     methods: {
@@ -25,6 +47,8 @@ export default {
                 //this.$emit(메서드, 인자)
                 this.$emit('addItem', this.newTodoItem);
                 this.clearInput();
+            } else {
+                this.showModal = !this.showModal;
             }
             //localStorage.setItem(this.newTodoItem, obj);
             // data 영역도 접근가능함.
@@ -34,6 +58,11 @@ export default {
         clearInput: function() {
             this.newTodoItem = '';
         }
+    },
+    components: {
+    //  input의 하위 컴포넌트는 모달이 된다.
+    Modal: Modal
+
     }
 }
 </script>
