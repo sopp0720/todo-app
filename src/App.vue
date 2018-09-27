@@ -38,10 +38,9 @@ export default {
   methods: {
     //app이 액션수행, 컴포넌트는 프레젠테이션 역할
     addOneItem: function(todoItem) {
-      var obj = {completed: false, item:todoItem};
+      const obj = {completed: false, item:todoItem};
       localStorage.setItem(todoItem, JSON.stringify(obj));
       this.todoItems.push(obj);
-
     },    
     removeOneItem: function(todoItem, index) {
       // console.log('removeItem :'+removeItem);
@@ -69,7 +68,7 @@ export default {
   },
   created: function() {
         if(localStorage.length > 0) {
-            for (var i =0 ; i < localStorage.length ; i ++) {
+            for (let i =0 ; i < localStorage.length ; i ++) {
                 if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
                     //console.log(JSON.parse(localStorage.getItem(localStorage.key(i))));
                     this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
