@@ -1,4 +1,17 @@
 <template>
+    
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style>
+
+</style>
+<template>
     <div class="inputBox shadow">
         <!-- 동적으로 vue instance에 저장하는 역할을 한다. -->
         <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo">
@@ -31,7 +44,6 @@
 
 <script>
 import Modal from './common/Modal.vue'
-
 export default {
     data: function() {
         return {
@@ -61,8 +73,7 @@ export default {
     },
     components: {
     //  input의 하위 컴포넌트는 모달이 된다.
-    Modal: Modal
-
+    Modal
     }
 }
 </script>
@@ -96,7 +107,4 @@ input:focus {
 .closeModalBtn {
   color: #42b983;
 }
-
 </style>
-
-

@@ -19,14 +19,14 @@
 export default {
     props: ['propsdata'],
     methods: {
-        toggleComplete: function(todoItem, index) {            
+        toggleComplete(todoItem, index) {            
             this.$emit('toggleItem', todoItem, index);
             // todoItem.completed = !todoItem.completed;
             // // 로컬스토리지 갱신
             // localStorage.removeItem(todoItem.item);
             // localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
         },
-        removeTodo: function(todoItem, index) {
+        removeTodo(todoItem, index) {
             // 발행!
             // 이벤트를 발생시키고 이벤트버스로 전달함 ==> todoItem, index 를 같이 넘긴다.
             // app.vue에서 이벤트를 받아, app.vue에서 메서드를 실행시킨다.

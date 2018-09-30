@@ -23,6 +23,10 @@
 - v-enter:
 - v-enter-active:
 
+## method 속성함수 --> ES6표현으로 수정
+- 메서드 속성을 괄호로만 표현할 수 있다.
+- data() : function() --> data()
+
 ## Build Setup
 
 ``` bash

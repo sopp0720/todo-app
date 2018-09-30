@@ -15,34 +15,33 @@ import TodoHeader from './components/TodoHeader.vue'
 import TodoFooter from './components/TodoFooter.vue'
 import TodoList from './components/TodoList.vue'
 import TodoInput from './components/TodoInput'
-
 // es5 기준
 // var mycomponent = {
 //   tempalte : '<div>my component</div>'
 // }
-
 // new Vue({
 //   el: '',
 //   component: {
 //     'my-component' : my-component
 //   }
 // })
-
-
 export default {  
-  data: function() {
+    // es6 향상된 리터럴. 
+    // 메서드 속성을 괄호로만 표현할 수 있다.
+    // data() : function()
+  data() {
     return {
       todoItems: []
     }
   },
   methods: {
     //app이 액션수행, 컴포넌트는 프레젠테이션 역할
-    addOneItem: function(todoItem) {
+    addOneItem(todoItem) {
       const obj = {completed: false, item:todoItem};
       localStorage.setItem(todoItem, JSON.stringify(obj));
       this.todoItems.push(obj);
     },    
-    removeOneItem: function(todoItem, index) {
+    removeOneItem(todoItem, index) {
       // console.log('removeItem :'+removeItem);
       // console.log('todoItem :'+todoItem);
       // console.log(todoItem, index);
@@ -52,7 +51,7 @@ export default {
       // javascript 배열 메서드
       
     },
-    toggleOneItem: function(todoItem, index){
+    toggleOneItem(todoItem, index){
       // todoItem.completed = !todoItem.completed; ==> 안티패턴 , 곧바로 접근하는거 xx      
       // 컴포넌트 경계를 명확하게 하는 방법으로 표현 (아래)
       this.todoItems[index].completed = !this.todoItems[index].completed;
@@ -60,13 +59,13 @@ export default {
       localStorage.removeItem(todoItem.item);
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
     },
-    clearAllItems: function() {
+    clearAllItems() {
       localStorage.clear();
       //기존 배열도 초기화 하기
       this.todoItems = [];
     }
   },
-  created: function() {
+  created() {
         if(localStorage.length > 0) {
             for (let i =0 ; i < localStorage.length ; i ++) {
                 if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
@@ -79,12 +78,11 @@ export default {
   },
   components: {
     // 컴포넌트 태그명 : 컴포넌트 내용
-    'TodoHeader' : TodoHeader,
-    'TodoFooter' : TodoFooter,
-    'TodoList' : TodoList,
-    'TodoInput' : TodoInput
+    TodoHeader,
+    TodoFooter,
+    TodoList,
+    TodoInput
   }
-
 }
 </script>
 
