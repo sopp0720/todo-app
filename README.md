@@ -27,6 +27,10 @@
 - 메서드 속성을 괄호로만 표현할 수 있다.
 - data() : function() --> data()
 
+## vuex
+- npm 으로 설치하기(ES6방식을 쓰는게 좋음)
+
+
 ## Build Setup
 
 ``` bash

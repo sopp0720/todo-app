@@ -1,3 +1,4 @@
+
 <template>
     
 </template>
@@ -57,13 +58,16 @@ export default {
                 //var obj = {completed: false, item: this.newTodoItem};                
                 //localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
                 //this.$emit(메서드, 인자)
-                this.$emit('addItem', this.newTodoItem);
+                //const text = this.nextTodoItem.trim();
+                this.$store.commit('addOneItem', this.nextTodoItem);
+                //this.$emit('addItem', this.newTodoItem);
                 this.clearInput();
             } else {
                 this.showModal = !this.showModal;
             }
             //localStorage.setItem(this.newTodoItem, obj);
             // data 영역도 접근가능함.
+
             // 같은 인스턴스를 가르키기 때문에 접근가능함.
             this.clearInput();
         },

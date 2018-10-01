@@ -31,16 +31,19 @@ export default {
     // data() : function()
   data() {
     return {
-      todoItems: []
+      //todoItems: []
     }
   },
-  methods: {
+  // TODO : 아래 세개를 mutation으로 바꾸기.
+  methods: { //mutations
+    
     //app이 액션수행, 컴포넌트는 프레젠테이션 역할
-    addOneItem(todoItem) {
-      const obj = {completed: false, item:todoItem};
-      localStorage.setItem(todoItem, JSON.stringify(obj));
-      this.todoItems.push(obj);
-    },    
+    // 
+    // addOneItem(todoItem) {
+    //   const obj = {completed: false, item:todoItem};
+    //   localStorage.setItem(todoItem, JSON.stringify(obj));
+    //   this.todoItems.push(obj);
+    // },    
     removeOneItem(todoItem, index) {
       // console.log('removeItem :'+removeItem);
       // console.log('todoItem :'+todoItem);
@@ -65,17 +68,17 @@ export default {
       this.todoItems = [];
     }
   },
-  created() {
-        if(localStorage.length > 0) {
-            for (let i =0 ; i < localStorage.length ; i ++) {
-                if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
-                    //console.log(JSON.parse(localStorage.getItem(localStorage.key(i))));
-                    this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-                }                
-                //console.log(localStorage.key(i));
-            }
-        }
-  },
+//   created() {
+//         if(localStorage.length > 0) {
+//             for (let i =0 ; i < localStorage.length ; i ++) {
+//                 if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
+//                     //console.log(JSON.parse(localStorage.getItem(localStorage.key(i))));
+//                     this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+//                 }                
+//                 //console.log(localStorage.key(i));
+//             }
+//         }
+//   },
   components: {
     // 컴포넌트 태그명 : 컴포넌트 내용
     TodoHeader,
