@@ -2,7 +2,8 @@
   <div id="app">
     <TodoHeader></TodoHeader>
     <!-- <TodoInput v-on:"메서드이름"="하위 컴포넌트에서 발생시킨 이벤트 이름></TodoInput> -->
-    <TodoInput v-on:addItem="addOneItem"></TodoInput>
+    <!-- <TodoInput v-on:addItem="addOneItem"></TodoInput> -->
+    <TodoInput></TodoInput>
     <TodoList v-bind:propsdata="todoItems" 
           v-on:removeItem="removeOneItem" 
           v-on:toggleItem="toggleOneItem"></TodoList>

@@ -58,8 +58,8 @@ export default {
                 //var obj = {completed: false, item: this.newTodoItem};                
                 //localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
                 //this.$emit(메서드, 인자)
-                //const text = this.nextTodoItem.trim();
-                this.$store.commit('addOneItem', this.nextTodoItem);
+                //const text = this.newTodoItem.trim();
+                this.$store.commit('addOneItem', this.newTodoItem);
                 //this.$emit('addItem', this.newTodoItem);
                 this.clearInput();
             } else {

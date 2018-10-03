@@ -24,6 +24,9 @@ const storage = {
             }
         }
         return arr;
+    },
+    remove() {
+
     }
 
 }
@@ -31,14 +34,25 @@ const storage = {
 export const store = new Vuex.Store({
     state: {
         //headerText: 'TODO it!' --> test
-        todoItems: storage.fetch()
+        todoItems: storage.fetch(),
+        todoItems2: storage.fetch()
     },
     mutations: {
-      addOneItem(state, todoItem) {          
+    addOneItem(state, todoItem) {
+        console.log('todoItem :'+todoItem);
         const obj = {completed: false, item: todoItem};
         localStorage.setItem(todoItem, JSON.stringify(obj));
         state.todoItems.push(obj);
         console.log(this); //원하는 대루 접근 안될걸~
+    },
+    removeOneItem(todoItem, index) {
+        // console.log('removeItem :'+removeItem);
+        // console.log('todoItem :'+todoItem);
+        // console.log(todoItem, index);
+        this.todoItems.splice(index, 1);        
+        localStorage.removeItem(todoItem.item);
+        // javascript 배열 메서드
+        
     },
 
     }
