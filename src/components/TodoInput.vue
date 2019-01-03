@@ -25,7 +25,10 @@ export default {
                 //this.$emit(메서드, 인자)
                 this.$emit('addItem', this.newTodoItem);
                 this.clearInput();
+            } else {
+                alert('야 입력값이 없다~');
             }
+            
             //localStorage.setItem(this.newTodoItem, obj);
             // data 영역도 접근가능함.
             // 같은 인스턴스를 가르키기 때문에 접근가능함.

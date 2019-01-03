@@ -32,6 +32,7 @@ import TodoInput from './components/TodoInput'
 export default {  
   data: function() {
     return {
+      // 공유되는 성질이 같다. 
       todoItems: []
     }
   },

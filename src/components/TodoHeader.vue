@@ -1,6 +1,7 @@
 <template>
     <!-- html 기본적으로 컴포넌트 하나당 HTML tag는 루트레벨에서 하나만 있어야 한다. child 형태로 추가되어야 함 -->
     <header>
+        <!-- <h1>{{ this.$store.state.headerText }}</h1> -->
         <h1>TODO it!</h1>
     </header>
 </template>
