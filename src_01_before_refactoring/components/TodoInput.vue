@@ -26,11 +26,8 @@ export default {
             //this는 같은 instance를 가르킨다.
             if(this.newTodoItem !== '') {
                 // 아래처럼 키밸류를 구분한다. 
-                //this.$emit('이벤트 이름', 인자1, 인자2, ...);
-                // addTodoItem 라는 이벤트가 발생.
-                console.log("input component : "+this.newTodoItem);
-                this.$emit('addTodoItem', this.newTodoItem);
-
+                var obj = {completed: false, item: this.newTodoItem};
+                localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
                 this.clearInput();  
             } else { 
                 alert('no input value!');

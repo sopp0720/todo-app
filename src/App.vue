@@ -1,95 +1,82 @@
 <template>
   <div id="app">
     <TodoHeader></TodoHeader>
-    <!-- <TodoInput v-on:"메서드이름"="하위 컴포넌트에서 발생시킨 이벤트 이름></TodoInput> -->
-    <TodoInput v-on:addItem="addOneItem"></TodoInput>
+    <!-- <TodoInput v-on:하위 컴포넌트에서 발생시킨 이벤트 이름="현재 컴포넌트의 메서드 명"></TodoInput> -->
+    <TodoInput v-on:addTodoItem="addOneItem"></TodoInput>
+    <!-- <TodoList v-bind:내려보낼 프롭스 속성 이름="현재 위치의 컴포넌트 데이터 속성 "></TodoList> -->
     <TodoList v-bind:propsdata="todoItems" 
-          v-on:removeItem="removeOneItem" 
-          v-on:toggleItem="toggleOneItem"></TodoList>
+            v-on:removeItem="removeOneItem" 
+            v-on:toggleItem="toggleOneItem" ></TodoList>
     <TodoFooter v-on:clearAll="clearAllItems"></TodoFooter>
+
   </div>
 </template>
 
 <script>
 import TodoHeader from './components/TodoHeader.vue'
 import TodoFooter from './components/TodoFooter.vue'
+import TodoInput from './components/TodoInput.vue'
 import TodoList from './components/TodoList.vue'
-import TodoInput from './components/TodoInput'
 
-// es5 기준
-// var mycomponent = {
-//   tempalte : '<div>my component</div>'
-// }
-
-// new Vue({
-//   el: '',
-//   component: {
-//     'my-component' : my-component
-//   }
-// })
-
-
-export default {  
-  data: function() {
+export default {
+  data: function(){
     return {
       todoItems: []
     }
   },
+    // instance가 생성되자 마자 호출되는 hook
+  created: function() {
+      if(localStorage.length > 0) {
+          for (var i = 0; i < localStorage.length ; i++ ) {
+              if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
+                  // string 으로 던지기 때문에 parse시킨다. 
+                  //console.log(JSON.parse(localStorage.getItem(localStorage.key(i))));
+                  this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+              }
+          }
+      }
+  },
   methods: {
-    //app이 액션수행, 컴포넌트는 프레젠테이션 역할
     addOneItem: function(todoItem) {
-      var obj = {completed: false, item:todoItem};
+      console.log("app component : "+todoItem); 
+      var obj = {completed: false, item: todoItem};
       localStorage.setItem(todoItem, JSON.stringify(obj));
       this.todoItems.push(obj);
-
-    },    
-    removeOneItem: function(todoItem, index) {
-      // console.log('removeItem :'+removeItem);
-      // console.log('todoItem :'+todoItem);
-      // console.log(todoItem, index);
-      this.todoItems.splice(index, 1);
-      console.log(this.todoItem);
-      localStorage.removeItem(todoItem.item);
-      // javascript 배열 메서드
-      
     },
-    toggleOneItem: function(todoItem, index){
-      // todoItem.completed = !todoItem.completed; ==> 안티패턴 , 곧바로 접근하는거 xx      
-      // 컴포넌트 경계를 명확하게 하는 방법으로 표현 (아래)
+    removeOneItem: function(todoItem, index){
+      console.log(todoItem, index);
+      this.todoItems.splice(index, 1);
+      localStorage.removeItem(todoItem.item);
+      // 특정 index 하나 지우는 javascript api
+    },
+    // 안티패턴, 하위 컴포넌트에서 다시 데이터를 보내는 모양.
+    toggleOneItem: function(todoItem, index) {
+      // todoItem.completed = !todoItem.completed;  
+      // 이벤트 버스를 내려서 (내가 이해한걸론 todoList안에 이벤트버스를 내린다는 말 같음..)  
+      // 컴포넌트간의 경계를 명확하게 한다. 
       this.todoItems[index].completed = !this.todoItems[index].completed;
-      // 로컬스토리지 갱신
+
+      // 실제 로컬 스토리지에 저장하는 부분.
+      // update하는게 없어서 해당 item을 지우고, 바뀐걸 저장한다. 
       localStorage.removeItem(todoItem.item);
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
     },
     clearAllItems: function() {
       localStorage.clear();
-      //기존 배열도 초기화 하기
       this.todoItems = [];
     }
   },
-  created: function() {
-        if(localStorage.length > 0) {
-            for (var i =0 ; i < localStorage.length ; i ++) {
-                if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
-                    //console.log(JSON.parse(localStorage.getItem(localStorage.key(i))));
-                    this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-                }                
-                //console.log(localStorage.key(i));
-            }
-        }
-  },
   components: {
-    // 컴포넌트 태그명 : 컴포넌트 내용
     'TodoHeader' : TodoHeader,
     'TodoFooter' : TodoFooter,
     'TodoList' : TodoList,
-    'TodoInput' : TodoInput
-  }
-
+    'TodoInput' : TodoInput,
+  }  
 }
 </script>
 
 <style>
+/* 하위 컴포넌트 까지 영향을 준다 */
   body {
     text-align: center;
     background-color: #f6f6f6;
