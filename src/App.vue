@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-    <TodoHeader></TodoHeader>
     <!-- <TodoInput v-on:"메서드이름"="하위 컴포넌트에서 발생시킨 이벤트 이름></TodoInput> -->
-    <TodoInput></TodoInput>
-    <TodoList></TodoList>
+    <TodoHeader></TodoHeader>
+    <TodoInput v-on:addTextOne="addTextEvent"></TodoInput>
+    <TodoList v-bind:propsdata="addContext"
+              v-on:removeOneContext="removeOneEvent"></TodoList>
     <TodoFooter></TodoFooter>
   </div>
 </template>
@@ -28,6 +29,38 @@ import TodoInput from './components/TodoInput'
 
 
 export default {  
+  data: function() {
+    return {
+      addContext: [],
+    }
+  }, 
+  created: function(){
+    console.log('list create hoook');
+    if(localStorage.length > 0) {
+      for( var i = 0; i < localStorage.length ; i++ ) {
+        if(localStorage.key(i) !== 'loglevel:webpack-dev-server' ){
+          console.log(localStorage.getItem(localStorage.key(i)));
+        //   this.addContext.push( JSON.parse(localStorage.getItem(localStorage.key(i))) );
+        }
+      }
+    }
+  },
+  methods: {
+    addTextEvent: function(addContext) {
+      console.log('here :'+addContext);
+      // var obj = {completed: false, item: this.addContext};
+      // localStorage.setItem(this.addContext, JSON.stringify(obj));
+      // this.addContext.push(obj);
+      // // console.log(obj);
+    },
+    removeOneEvent: function(context, index){
+      console.log(context, index);
+      // localStorage.removeItem(context.item)
+      // // localStorage.removeItem(context); // not work..!
+      // this.addContext.splice(index, 1);
+    }
+
+  },
   components: {
     // 컴포넌트 태그명 : 컴포넌트 내용
     'TodoHeader' : TodoHeader,
