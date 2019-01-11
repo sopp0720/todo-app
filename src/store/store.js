@@ -16,13 +16,34 @@ const storage = {
                 //console.log(localStorage.key(i));
             }
         }
-
-    }    
+        return arr;
+    }
 };
 
 export const store = new Vuex.Store({
     state: {
-    //    headerText: 'TODO it!'
         todoItems: storage.fetch()
+    },
+    mutations: {
+        addOneItem(state, todoItem) {
+            var obj = {completed: false, item:todoItem};
+            localStorage.setItem(todoItem, JSON.stringify(obj));
+            state.todoItems.push(obj);
+        },
+        removeOneItem(state, payload ) {
+            // 방금까지 undefined라고 뜨던게 잘되네???
+            localStorage.removeItem(payload.todoItem.item);
+            state.todoItems.splice(payload.index, 1);
+        },
+        toggleOneItem(state, payload ) {
+            state.todoItems[payload.index].completed = !state.todoItems[payload.index].completed;
+            localStorage.removeItem(payload.todoItem.item);
+            localStorage.setItem(payload.todoItem.item, JSON.stringify(payload.todoItem));
+        },
+        clearAllItems(state) {
+            localStorage.clear();
+            //기존 배열도 초기화 하기
+            state.todoItems = [];
+        }
     }
 });

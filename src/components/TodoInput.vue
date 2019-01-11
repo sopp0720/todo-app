@@ -23,7 +23,9 @@ export default {
                 //var obj = {completed: false, item: this.newTodoItem};                
                 //localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
                 //this.$emit(메서드, 인자)
-                this.$emit('addItem', this.newTodoItem);
+                //this.$emit('addItem', this.newTodoItem);
+                this.$store.commit('addOneItem', this.newTodoItem);
+                 //this.$store.commit('addOneItem', text );
                 this.clearInput();
             } else {
                 alert('야 입력값이 없다~');

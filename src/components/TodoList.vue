@@ -1,9 +1,10 @@
 <template>
     <div>
         <!-- ul>li*3 단축키 -->        
-        <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem" class="shadow">
+        <li v-for="(todoItem, index) in this.$store.state.todoItems" v-bind:key="todoItem.item" class="shadow">
             <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete(todoItem, index)"></i>
-            <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
+            <span v-bind:class="{textCompleted: todoItem.completed}"> {{ todoItem.item }} </span>
+            
         <span class="removeBtn" v-on:click="removeTodo(todoItem, index)">
         <i class="removeBtn fas fa-trash-alt"></i>
         </span>
@@ -14,10 +15,11 @@
 
 <script>
 export default {
-    props: ['propsdata'],
+    // props: ['propsdata'],
     methods: {
-        toggleComplete: function(todoItem, index) {            
-            this.$emit('toggleItem', todoItem, index);
+        toggleComplete: function(todoItem, index) {
+            //this.$emit('toggleItem', todoItem, index);
+            this.$store.commit('toggleOneItem', { todoItem, index });
             // todoItem.completed = !todoItem.completed;
             // // 로컬스토리지 갱신
             // localStorage.removeItem(todoItem.item);
@@ -27,8 +29,9 @@ export default {
             // 발행!
             // 이벤트를 발생시키고 이벤트버스로 전달함 ==> todoItem, index 를 같이 넘긴다.
             // app.vue에서 이벤트를 받아, app.vue에서 메서드를 실행시킨다.
-            this.$emit('removeItem', todoItem, index);
-            // console.log(todoItem, index);
+            // this.$emit('removeItem', todoItem, index);
+
+            this.$store.commit('removeOneItem', { todoItem, index} );
             // localStorage.removeItem(todoItem);
             // // javascript 배열 메서드
             // this.todoItems.splice(index, 1);

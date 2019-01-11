@@ -11,7 +11,8 @@ export default {
     clearTodo: function() {
         // event만 발생시키고,
         // 실제 처리는 app.vue에서 함.
-        this.$emit('clearAll')
+        //this.$emit('clearAll')
+        this.$store.commit('clearAllItems');
         //localStorage.clear();
     }
   }
