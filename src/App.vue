@@ -1,13 +1,11 @@
 <template>
   <div id="app">
+    <!-- <TodoInput v-on:"메서드이름"="하위 컴포넌트에서 발생시킨 이벤트 이름></TodoInput> -->
     <TodoHeader></TodoHeader>
-    <!-- <TodoInput v-on:하위 컴포넌트에서 발생시킨 이벤트 이름="현재 컴포넌트의 메서드 명"></TodoInput> -->
-    <TodoInput v-on:addTodoItem="addOneItem"></TodoInput>
-    <!-- <TodoList v-bind:내려보낼 프롭스 속성 이름="현재 위치의 컴포넌트 데이터 속성 "></TodoList> -->
-    <TodoList v-bind:propsdata="todoItems" 
-            v-on:removeItem="removeOneItem" 
-            v-on:toggleItem="toggleOneItem" ></TodoList>
-    <TodoFooter v-on:clearAll="clearAllItems"></TodoFooter>
+    <TodoInput v-on:addTextOne="addTextEvent"></TodoInput>
+    <TodoList v-bind:propsdata="addContext"
+              v-on:removeOneContext="removeOneEvent"></TodoList>
+    <TodoFooter v-on:clearAll="clearAllContext"></TodoFooter>
 
   </div>
 </template>
@@ -21,49 +19,46 @@ import TodoList from './components/TodoList.vue'
 export default {
   data: function(){
     return {
-      todoItems: []
+      addContext: [],
+    }
+  }, 
+  created: function(){
+    console.log('list create hoook');
+    if(localStorage.length > 0) {
+      for( var i = 0; i < localStorage.length ; i++ ) {
+        if(localStorage.key(i) !== 'loglevel:webpack-dev-server' ){
+          console.log('here :'+22222);
+          console.log(localStorage.getItem(localStorage.key(i)));
+          this.addContext.push( JSON.parse(localStorage.getItem(localStorage.key(i))) );
+          console.log('here :'+33333);
+        }
+      }
     }
   },
-    // instance가 생성되자 마자 호출되는 hook
-  created: function() {
-      if(localStorage.length > 0) {
-          for (var i = 0; i < localStorage.length ; i++ ) {
-              if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
-                  // string 으로 던지기 때문에 parse시킨다. 
-                  //console.log(JSON.parse(localStorage.getItem(localStorage.key(i))));
-                  this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-              }
-          }
-      }
-  },
   methods: {
-    addOneItem: function(todoItem) {
-      console.log("app component : "+todoItem); 
-      var obj = {completed: false, item: todoItem};
-      localStorage.setItem(todoItem, JSON.stringify(obj));
-      this.todoItems.push(obj);
+    addTextEvent: function(addContext) {
+      // data의 addContext와 여기서 파라미터로 받는 addContext는 다르다!!!!!
+      // *****실수 해결******
+      // console.log('here :'+addContext);
+      console.log(this.addContext); //this가 붙고 안붙고 차이? this면 object가 들어감...
+      var obj = {completed: false, item: addContext};
+      // this가 붙으면 object[]로 들어간다@@@@
+      localStorage.setItem(addContext, JSON.stringify(obj));
+      this.addContext.push(obj);
+      // // console.log(obj);
     },
-    removeOneItem: function(todoItem, index){
-      console.log(todoItem, index);
-      this.todoItems.splice(index, 1);
-      localStorage.removeItem(todoItem.item);
-      // 특정 index 하나 지우는 javascript api
+    removeOneEvent: function(context, index){
+      console.log(context, index);
+      this.addContext.splice(index, 1);
+      localStorage.removeItem(context.item);
+      // localStorage.removeItem(context.item)
+      // // localStorage.removeItem(context); // not work..!
+      // this.addContext.splice(index, 1);
     },
-    // 안티패턴, 하위 컴포넌트에서 다시 데이터를 보내는 모양.
-    toggleOneItem: function(todoItem, index) {
-      // todoItem.completed = !todoItem.completed;  
-      // 이벤트 버스를 내려서 (내가 이해한걸론 todoList안에 이벤트버스를 내린다는 말 같음..)  
-      // 컴포넌트간의 경계를 명확하게 한다. 
-      this.todoItems[index].completed = !this.todoItems[index].completed;
-
-      // 실제 로컬 스토리지에 저장하는 부분.
-      // update하는게 없어서 해당 item을 지우고, 바뀐걸 저장한다. 
-      localStorage.removeItem(todoItem.item);
-      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
-    },
-    clearAllItems: function() {
-      localStorage.clear();
-      this.todoItems = [];
+    clearAllContext: function(){
+       localStorage.clear();
+       this.addContext = [];  // 애를 안타...
+       console.log(this.addContext);
     }
   },
   components: {

@@ -1,77 +1,49 @@
 <template>
-    <div class="inputBox shadow">
-    <!-- input action을 넣는다. -->
-        <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo">
 
-        <span class="addContainer" v-on:click="addTodo">
+    <!-- <div class="appvue">
+       <input type="text" v-model="addContext" v-on:keyup.enter="addText">
+       <button class="addContainer" v-on:click="addText">add button</button>
+    </div> -->
+      <div class="inputBox shadow">
+    <!-- input action을 넣는다. -->
+        <input type="text" v-model="addContext" v-on:keyup.enter="addText">
+
+        <span class="addContainer" v-on:click="addText">
             <i class="fas fa-plus addBtn"></i>
             <!-- <i class="far fa-plus-square addBtn"></i> -->
         </span>
     </div>
-    
-    
-
 </template>
 
 <script>
 
 export default {
-    data: function() {
+    data: function(){
         return {
-            newTodoItem: ""
+            addContext: ""
         }
     }, 
     methods: {
-        addTodo: function() {
-            //this는 같은 instance를 가르킨다.
-            if(this.newTodoItem !== '') {
-                // 아래처럼 키밸류를 구분한다. 
+        addText: function(){
+            if(this.addContext !== ''){
+                // console.log('test!');
                 //this.$emit('이벤트 이름', 인자1, 인자2, ...);
-                // addTodoItem 라는 이벤트가 발생.
-                console.log("input component : "+this.newTodoItem);
-                this.$emit('addTodoItem', this.newTodoItem);
-
-                this.clearInput();  
-            } else { 
-                alert('no input value!');
+                // 안돼... 
+                console.log('this.addContext :'+ typeof this.addContext)
+                this.$emit('addTextOne', this.addContext);
+                this.clearInput();
+            } else {
+                alert('no input!');
             }
-            //this.clearInput();
         },
-        clearInput: function() {
-            this.newTodoItem = '';
+        clearInput(){
+            this.addContext = '';
         }
     }
 }
 </script>
 
+<style>
 
-<style scoped>
-input:focus {
-  outline: none;
-}
-.inputBox {
-  background: white;
-  height: 50px;
-  line-height: 50px;
-  border-radius: 5px;
-}
-.inputBox input {
-  border-style: none;
-  font-size: 0.9rem;
-}
-.addContainer {
-  float: right;
-  background: linear-gradient(to right, #6478FB, #8763FB);
-  display: block;
-  width: 3rem;
-  border-radius: 0 5px 5px 0; 
-  /* 테두리의 둥그스름함 */
-}
-.addBtn {
-  color: white;
-  vertical-align: middle;
-}
-.closeModalBtn {
-  color: #42b983;
-}
+
 </style>

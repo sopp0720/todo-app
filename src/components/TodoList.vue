@@ -1,86 +1,63 @@
 <template>
-    <div>
-        <!-- <li v-for=""></li> -->
-        <ul>
-            <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem.item" class="shadow">
-                <!-- 동적으로 값에 따라 class를 추가하거나 뺀다. v-bind 강력함. -->
-                <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" 
-                v-on:click="toggleComplete(todoItem, index)"></i>
-                 <span v-bind:class="{textCompleted: todoItem.completed}"> {{ todoItem.item }} </span> 
+  <div>
+    <li v-for="(context, index) in propsdata" v-bind:key="context.item">
+      <!-- context.completed = false ==> class안먹임 -->
 
-                <span class="removeBtn" v-on:click="removeTodo(todoItem, index)">
-                    <i class="fas fa-trash-alt"></i>
-                </span>
-            </li>
+      <!-- checkbox에만 class먹이는 동작 -->
+      <i class="fal fa-check" v-bind:class="{checkBtnCompleted: context.completed}"
+      v-on:click="toggleComplete(context, index)"></i>
+      {{ context.item }} 
 
-        </ul>
-
-    </div>
+      <!-- 아래처럼 하면 전체 글에 class먹이는거 -->
+      <!-- <span v-bind:class="{checkBtnCompleted: context.completed}"> {{ context.item }}  </span> -->
+      
+      <button v-on:click="removeOne(context, index)">removeOne</button>
+    </li>
+  </div>
 
 </template>
 
 <script>
 
 export default {
-    props: ['propsdata'],
-    methods: {
-        removeTodo: function(todoItem, index) {
-            this.$emit('removeItem', todoItem, index);
-            
-
-            //localStorage.removeItem(todoItem);
-            // 특정 index 하나 지우는 javascript api
-            //this.todoItems.splice(index, 1);
-            // slice와의 차이가 있음!
-        },
-        toggleComplete: function(todoItem, index) {
-            this.$emit('toggleItem', todoItem, index);
-        }
+  props: ["propsdata"],
+  data: function() {
+    return {
+      addContext: [],
+      // item: {
+      //   message : 1,
+      //   message : 2
+      // }
+    }
+  }, 
+  methods: {
+    removeOne(context, index){
+      //console.log(context, index);
+      // localStorage.removeItem(context.item)
+      // // localStorage.removeItem(context); // not work..!
+      // this.addContext.splice(index, 1);
+      this.$emit('removeOneContext', context, index);
     },
+    toggleComplete(context, index){
+       console.log("toggleComplete :"+context, index); 
+       context.completed = !context.completed;
+       localStorage.removeItem(context.item);
+       localStorage.setItem(context.item, JSON.stringify(context));
+       
+
+    }
+  },
+
 }
 </script>
 
-
-<style scoped>
-/* 이 컴포넌트에만 해당되는 스타일 */
-ul {
-  list-style-type: none;
-  padding-left: 0px;
-  margin-top: 0;
-  text-align: left;
-}
-li {
-  display: flex;
-  min-height: 50px;
-  height: 50px;
-  line-height: 50px;
-  margin: 0.5rem 0;
-  padding: 0 0.9rem;
-  background: white;
-  border-radius: 5px;
-}
-.checkBtn {
-  line-height: 45px;
-  color: #62acde;
-  margin-right: 5px;
-}
-.checkBtnCompleted {
-  color: #b3adad;
-}
-.textCompleted {
+<style scope>
+  .checkBtnCompleted {
+    color:red;
+  }
+/* .textCompleted {
+>>>>>>> 5196c9bd56f5b85bbeb88a0bab9fca870c08cc48
   text-decoration: line-through;
-  color: #b3adad;
-}
-.removeBtn {
-  margin-left: auto;
-  color: #de4343;
-}
-/* transition css */
-.list-enter-active, .list-leave-active {
-  transition: all 1s;
-}
-.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
-  opacity: 0;
-  transform: translateY(30px);
-}
+  color: red;
+} */
 </style>
