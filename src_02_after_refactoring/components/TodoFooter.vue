@@ -10,8 +10,7 @@ export default {
     methods: {
         clearAll(){
             // localStorage.clear();
-            //this.$emit("clearAll");
-            this.$store.commit("clearAllContext");
+            this.$emit("clearAll");
         }
     }
 }
